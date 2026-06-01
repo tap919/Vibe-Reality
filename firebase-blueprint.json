@@ -1,0 +1,89 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "A user of the platform",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "tier": { "type": "string", "enum": ["free", "pro", "enterprise"] },
+        "scansThisMonth": { "type": "number" },
+        "stripeCustomerId": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["uid", "email", "tier", "scansThisMonth", "createdAt"]
+    },
+    "Team": {
+      "title": "Team",
+      "description": "A workspace/team",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["name", "ownerId", "createdAt"]
+    },
+    "TeamMember": {
+      "title": "TeamMember",
+      "description": "A member of a team",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "role": { "type": "string", "enum": ["owner", "admin", "member"] },
+        "joinedAt": { "type": "string" }
+      },
+      "required": ["userId", "role", "joinedAt"]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "A repository or folder being analyzed",
+      "type": "object",
+      "properties": {
+        "teamId": { "type": "string" },
+        "name": { "type": "string" },
+        "repoUrl": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["teamId", "name", "createdAt"]
+    },
+    "ScanJob": {
+      "title": "ScanJob",
+      "description": "An analysis job run on a project",
+      "type": "object",
+      "properties": {
+        "projectId": { "type": "string" },
+        "teamId": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "fetching", "analyzing", "complete", "error"] },
+        "result": { "type": "object" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["projectId", "teamId", "status", "createdAt"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "User profiles"
+    },
+    "teams/{teamId}": {
+      "schema": { "$ref": "#/entities/Team" },
+      "description": "Teams workspaces"
+    },
+    "teams/{teamId}/members/{userId}": {
+      "schema": { "$ref": "#/entities/TeamMember" },
+      "description": "Members of a team"
+    },
+    "projects/{projectId}": {
+      "schema": { "$ref": "#/entities/Project" },
+      "description": "Projects belonging to teams"
+    },
+    "jobs/{jobId}": {
+      "schema": { "$ref": "#/entities/ScanJob" },
+      "description": "Jobs for a given project"
+    }
+  }
+}

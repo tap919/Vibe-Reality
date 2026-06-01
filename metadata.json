@@ -1,0 +1,6 @@
+{
+  "name": "RealityCheck.ai",
+  "description": "Agentic build analyzer that provides a realistic view of codebase completion, code smells, and necessary overhauls.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
